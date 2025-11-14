@@ -1,10 +1,11 @@
-function setup() {
-    createCanvas(300, 240);
+export class Sketch3{
+  setup(p) {
+    p.createCanvas(300, 240);
   }
   
-  function draw() {
-    background(0, 250, 255);
-    fill(155);
-    ellipse(width / 2, height / 2, 100 + 50 * sin(frameCount * 0.05));
+  draw(p) {
+    p.background(0, 250, 255);
+    p.fill(155);
+    p.ellipse(p.width / 2, p.height / 2, 100 + 50 * p.sin(p.frameCount * 0.05));
   }
-  
+}
