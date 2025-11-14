@@ -61,10 +61,12 @@ Generate ONLY valid JavaScript code for a p5.js sketch used inside a dynamic loa
 - NO global variables unless they are inside the class.
 - NO global setup() or draw() functions.
 - The class must contain:
-    - constructor() { ... }
+    - constructor(params = {}) { ... }  // params object for dynamic configuration
     - setup(p) { ... }
     - draw(p) { ... }
-- The code must run correctly when loaded externally: new Sketch$nextNumber().
+- Use params.background for background color if provided, default to a color if not.
+- Use params.fill for fill color if provided, default to a color if not.
+- The code must run correctly when loaded externally: new Sketch$nextNumber(params).
 - The output MUST contain ONLY the code.
 - DO NOT wrap the code in Markdown (no ``` blocks).
 - DO NOT include explanations outside comments inside the code.
@@ -72,8 +74,8 @@ Generate ONLY valid JavaScript code for a p5.js sketch used inside a dynamic loa
 Valid example structure:
 
 export class Sketch1 {
-  constructor() {
-    // initialize variables here
+  constructor(params = {}) {
+    this.params = params;
   }
 
   setup(p) {
@@ -82,8 +84,12 @@ export class Sketch1 {
   }
 
   draw(p) {
-    p.background(255, 200, 0);
-    p.fill(0);
+    const bg = this.params.background || [255, 200, 0];
+    p.background(...bg);
+
+    const fillColor = this.params.fill || 0;
+    p.fill(fillColor);
+
     p.textAlign(p.CENTER, p.CENTER);
     p.textSize(24);
     p.text('Sketch 1', p.width / 2, p.height / 2);
@@ -97,6 +103,7 @@ User request:
 $prompt
 \"\"\"
 ";
+
 
 /* ---------------------------------------------
    ENVIAR SOLICITUD A OPENAI

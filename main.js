@@ -17,9 +17,14 @@ function changeSketch(dir) {
   loadSketch(currentIndex, pInstance);
 }
 
-function loadSketch(index, p) {
+let currentParams = {
+  background: null,
+  fill: null
+};
+
+function loadSketch(index, p, params = {}) {
   const SketchClass = sketches[index];
-  currentSketch = new SketchClass();
+  currentSketch = new SketchClass(params);
 
   p.clear();
 
@@ -68,9 +73,14 @@ window.loadLastSketch = async function() {
   return ClassName || null;
 };
 
+document.getElementById('changeBg').addEventListener('click', () => {
+  // Cambiar fondo a rojo
+  currentParams.background = [0, 0, 0];
+  currentParams.fill = 255;
 
-
-
+  // Recargar el sketch actual con los nuevos params
+  loadSketch(currentIndex, pInstance, currentParams);
+});
 
 document.getElementById('next').addEventListener('click', () => changeSketch(1));
 document.getElementById('prev').addEventListener('click', () => changeSketch(-1));
