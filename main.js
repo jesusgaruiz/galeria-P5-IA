@@ -52,5 +52,29 @@ async function loadAllSketches() {
   }
 }
 
+window.loadLastSketch = async function() {
+  const response = await fetch("files.json");
+  const files = await response.json();
+
+  if (!files.length) return null;
+
+  const lastFile = files[files.length - 1];
+  const num = lastFile.match(/sketch(\d+)\.js$/)?.[1];
+  if (!num) return null;
+
+  const module = await import(`./sketches/${lastFile}`);
+  const ClassName = module[`Sketch${num}`];
+
+  return ClassName || null;
+};
+
+
+
+
+
 document.getElementById('next').addEventListener('click', () => changeSketch(1));
 document.getElementById('prev').addEventListener('click', () => changeSketch(-1));
+window.sketches = sketches;
+window.currentIndex = currentIndex;
+window.loadSketch = loadSketch;
+window.pInstance = pInstance;
