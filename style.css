@@ -1,24 +1,91 @@
+/* Estilo general */
 body {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  background: #222;
-  color: white;
+  background: #1e1e1e;
+  color: #fff;
+  margin: 0;
+  padding: 0;
 }
 
-#controls {
-  margin-top: 15px;
+/* Título */
+h1 {
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #f0a500;
+  text-shadow: 1px 1px 5px #000;
 }
 
+/* Contenedor de sketches */
+#sketch-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+  gap: 20px;
+  background: #2c2c2c;
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  max-width: 90%;
+}
+
+/* Botones de navegación */
+.arrow-btn {
+  font-size: 28px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 50%;
+  background: #f0a500;
+  color: #1e1e1e;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.arrow-btn:hover {
+  transform: scale(1.2);
+  background: #ffbf47;
+}
+
+/* Botones de acción */
 button {
-  padding: 8px 12px;
-  margin: 0 10px;
+  padding: 8px 14px;
+  margin: 10px;
   background-color: #444;
   border: none;
   color: white;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 button:hover {
   background-color: #666;
+}
+
+/* Contenedor de respuesta y entrada */
+#pregunta, #btnConsultar {
+  margin-top: 15px;
+  font-size: 1rem;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+#pregunta {
+  width: 250px;
+}
+
+#respuesta {
+  margin-top: 15px;
+  font-size: 1rem;
+  min-height: 24px;
+}
+
+/* Canvas centrado */
+#sketch-container canvas {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  background: #111;
 }

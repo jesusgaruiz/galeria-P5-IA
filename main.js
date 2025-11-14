@@ -6,12 +6,19 @@ let pInstance;
 pInstance = new p5((p) => {
   p.setup = async () => {
     p.createCanvas(400, 300);
-
     await loadAllSketches();
     loadSketch(currentIndex, p);
   };
-});
 
+  // Manejo de flechas del teclado
+  p.keyPressed = () => {
+    if (p.keyCode === p.LEFT_ARROW) {
+      changeSketch(-1);
+    } else if (p.keyCode === p.RIGHT_ARROW) {
+      changeSketch(1);
+    }
+  };
+});
 function changeSketch(dir) {
   currentIndex = (currentIndex + dir + sketches.length) % sketches.length;
   loadSketch(currentIndex, pInstance);
