@@ -57,3 +57,29 @@ function cambiarSketch(dir) {
   currentIndex = (currentIndex + dir + sketches.length) % sketches.length;
   loadSketch(sketches[currentIndex]);
 }
+
+function createGPTInterface() {
+  const gptContainer = createDiv();
+  gptContainer.id('gpt-interface');
+
+  const input = createInput('');
+  input.attribute('placeholder', 'Escribe tu pregunta aquí...');
+  input.parent(gptContainer);
+
+  const sendBtn = createButton('Enviar a GPT-4o-mini');
+  sendBtn.parent(gptContainer);
+
+  const responseDiv = createDiv('');
+  responseDiv.id('gpt-response');
+  responseDiv.parent(gptContainer);
+
+  sendBtn.mousePressed(async () => {
+    const message = input.value();
+    if (message.trim() === '') return;
+
+    responseDiv.html('Enviando...');
+    const response = await callGPT4Mini(message);
+    responseDiv.html(response || 'Error en la respuesta');
+    input.value('');
+  });
+}
