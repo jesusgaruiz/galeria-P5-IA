@@ -22,6 +22,7 @@ pInstance = new p5((p) => {
 function changeSketch(dir) {
   currentIndex = (currentIndex + dir + sketches.length) % sketches.length;
   loadSketch(currentIndex, pInstance);
+  currentParams.background = null;
 }
 
 let currentParams = {
