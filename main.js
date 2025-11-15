@@ -24,9 +24,13 @@ function changeSketch(dir) {
   loadSketch(currentIndex, pInstance);
 }
 
+let currentParams = {
+  background: null
+};
+
 function loadSketch(index, p) {
   const SketchClass = sketches[index];
-  currentSketch = new SketchClass();
+  currentSketch = new SketchClass(currentParams);
 
   p.clear();
 
@@ -75,8 +79,18 @@ window.loadLastSketch = async function() {
   return ClassName || null;
 };
 
+function randomColor() {
+  return [
+    Math.floor(Math.random() * 256),
+    Math.floor(Math.random() * 256),
+    Math.floor(Math.random() * 256)
+  ];
+}
 
-
+document.getElementById("changeBg").addEventListener("click", () => {
+  currentParams.background = randomColor();
+  loadSketch(currentIndex, pInstance);
+});
 
 
 document.getElementById('next').addEventListener('click', () => changeSketch(1));
