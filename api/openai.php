@@ -56,6 +56,7 @@ Generate ONLY valid JavaScript code for a p5.js sketch used inside a dynamic loa
 ❗ IMPORTANT REQUIREMENTS:
 - The sketch MUST be a class.
 - The class MUST be exported.
+- The sketch size canvas MUST be 800x600 pixels.
 - The class name MUST be exactly: Sketch$nextNumber
 - The sketch MUST accept an optional parameter object in the constructor like:
     constructor(params = {}) { this.params = params; }

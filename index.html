@@ -2,24 +2,20 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Galería de Sketches p5</title>
+    <title>GalerAI</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.min.js"></script>
     <script type="module" src="main.js"></script>
     <script type="module" src="api.js"></script>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>Galería de Sketches p5</h1>
-    <div id="sketch-wrapper">
-      <button id="prev" class="arrow-btn">&#8592;</button>
-      <div id="sketch-container"></div>
-      <button id="next" class="arrow-btn">&#8594;</button>
-    </div>
-
-    <input type="text" id="pregunta" placeholder="Escribe tu pregunta...">
+    <h1>GalerAI</h1>
+    <div id="controls">
+    <input type="text" id="pregunta" placeholder="Escribe tu idea...">
     <button id="btnConsultar">Generar Sketch</button>
-    <button id="changeBg">Cambiar fondo</button>
     <div id="respuesta"></div>
+    </div>
   </body>
 </html>
 

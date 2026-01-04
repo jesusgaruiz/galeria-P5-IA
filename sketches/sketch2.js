@@ -8,30 +8,30 @@ export class Sketch2 {
   }
 
   draw(p) {
-    const bg = this.params.background || [135, 206, 235]; // Sky blue
+    const bg = this.params.background || [135, 206, 235]; // Default sky blue
     p.background(...bg);
 
-    // House
-    p.fill(210, 180, 140); // House color
-    p.rect(300, 300, 200, 150); // House body
+    // Draw the sun
+    p.fill(255, 204, 0);
+    p.ellipse(700, 100, 100); // Positioning sun
 
-    // Roof
-    p.fill(178, 34, 34); // Roof color
-    p.triangle(250, 300, 400, 200, 550, 300); // Roof
+    // Draw beach
+    p.fill(255, 224, 178); // Sandy color
+    p.rect(0, 400, p.width, 200); // Beach area
 
-    // Door
-    p.fill(139, 69, 19); // Door color
-    p.rect(375, 350, 50, 100); // Door
+    // Draw umbrellas
+    this.drawUmbrella(p, 100, 350);
+    this.drawUmbrella(p, 300, 350);
+    this.drawUmbrella(p, 500, 350);
+  }
 
-    // Window
-    p.fill(255); // Window color
-    p.rect(325, 325, 40, 40); // Left window
-    p.rect(435, 325, 40, 40); // Right window
+  drawUmbrella(p, x, y) {
+    // Umbrella top
+    p.fill(255, 0, 0); // Red color
+    p.arc(x, y, 80, 80, p.PI, 0, p.CHORD);
 
-    // Tree
-    p.fill(139, 69, 19); // Tree trunk color
-    p.rect(150, 400, 30, 70); // Trunk
-    p.fill(0, 128, 0); // Tree leaves color
-    p.ellipse(165, 370, 100, 100); // Leaves
+    // Umbrella pole
+    p.fill(139, 69, 19); // Brown color for the pole
+    p.rect(x - 5, y, 10, 50);
   }
 }
