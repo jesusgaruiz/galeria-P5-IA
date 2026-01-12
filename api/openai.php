@@ -56,41 +56,45 @@ Generate ONLY valid JavaScript code for a p5.js sketch used inside a dynamic loa
 ❗ IMPORTANT REQUIREMENTS:
 - The sketch MUST be a class.
 - The class MUST be exported.
+- The sketch size canvas MUST be 800x600 pixels.
 - The class name MUST be exactly: Sketch$nextNumber
-- All p5.js API calls MUST use instance mode: every p5 call MUST use the 'p' object (p.createCanvas, p.ellipse, p.background, etc).
-- NO global variables unless they are inside the class.
+- The sketch MUST accept an optional parameter object in the constructor like:
+    constructor(params = {}) { this.params = params; }
+- The background color MUST use params.background as an array [r,g,b] or fallback to a default.
+     Example: const bg = this.params.background || [0, 0, 0]; p.background(...bg);
+- NO other properties should be parametrized (ONLY background).
+- All p5.js API calls MUST use instance mode: every call MUST use the 'p' object (p.createCanvas, p.background, p.ellipse, etc.).
+- NO global variables unless inside the class.
 - NO global setup() or draw() functions.
-- The class must contain:
-    - constructor() { ... }
+- The class must include:
+    - constructor(params = {}) { ... }
     - setup(p) { ... }
     - draw(p) { ... }
-- The code must run correctly when loaded externally: new Sketch$nextNumber().
+- The generated sketch MUST run correctly when instantiated externally: new Sketch$nextNumber(params).
 - The output MUST contain ONLY the code.
 - DO NOT wrap the code in Markdown (no ``` blocks).
-- DO NOT include explanations outside comments inside the code.
+- DO NOT include explanations outside comments in the code.
 
-Valid example structure:
+Valid example structure (follow this pattern):
 
-export class Sketch1 {
-  constructor() {
-    // initialize variables here
+export class Sketch$nextNumber {
+  constructor(params = {}) {
+    this.params = params;
   }
 
   setup(p) {
     p.createCanvas(300, 240);
-    p.noLoop();
   }
 
   draw(p) {
-    p.background(255, 200, 0);
-    p.fill(0);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(24);
-    p.text('Sketch 1', p.width / 2, p.height / 2);
+    const bg = this.params.background || [0, 250, 255];
+    p.background(...bg);
+
+    // example drawing
+    p.fill(200);
+    p.ellipse(p.width / 2, p.height / 2, 100);
   }
 }
-
-❗ Your output MUST follow exactly this structure, but using class name Sketch$nextNumber.
 
 User request:
 \"\"\"

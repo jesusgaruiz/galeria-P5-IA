@@ -1,12 +1,37 @@
 export class Sketch2 {
-  setup(p) {
-    p.createCanvas(300, 240);
+  constructor(params = {}) {
+    this.params = params;
   }
-  
+
+  setup(p) {
+    p.createCanvas(800, 600);
+  }
+
   draw(p) {
-    p.background(0, 150, 255);
-    p.fill(255);
-    p.ellipse(p.width / 2, p.height / 2, 100 + 50 * p.sin(p.frameCount * 0.05));
+    const bg = this.params.background || [135, 206, 235]; // Default sky blue
+    p.background(...bg);
+
+    // Draw the sun
+    p.fill(255, 204, 0);
+    p.ellipse(700, 100, 100); // Positioning sun
+
+    // Draw beach
+    p.fill(255, 224, 178); // Sandy color
+    p.rect(0, 400, p.width, 200); // Beach area
+
+    // Draw umbrellas
+    this.drawUmbrella(p, 100, 350);
+    this.drawUmbrella(p, 300, 350);
+    this.drawUmbrella(p, 500, 350);
+  }
+
+  drawUmbrella(p, x, y) {
+    // Umbrella top
+    p.fill(255, 0, 0); // Red color
+    p.arc(x, y, 80, 80, p.PI, 0, p.CHORD);
+
+    // Umbrella pole
+    p.fill(139, 69, 19); // Brown color for the pole
+    p.rect(x - 5, y, 10, 50);
   }
 }
-  

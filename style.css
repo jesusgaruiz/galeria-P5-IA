@@ -1,7 +1,11 @@
 /* Estilo general */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   background: #1e1e1e;
   color: #fff;
   margin: 0;
@@ -16,8 +20,7 @@ h1 {
   text-shadow: 1px 1px 5px #000;
 }
 
-/* Contenedor de sketches */
-#sketch-wrapper {
+#controls {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,24 +31,6 @@ h1 {
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
   max-width: 90%;
-}
-
-/* Botones de navegación */
-.arrow-btn {
-  font-size: 28px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 50%;
-  background: #f0a500;
-  color: #1e1e1e;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.arrow-btn:hover {
-  transform: scale(1.2);
-  background: #ffbf47;
 }
 
 /* Botones de acción */
@@ -83,9 +68,39 @@ button:hover {
   min-height: 24px;
 }
 
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Canvas centrado */
-#sketch-container canvas {
+canvas {
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   background: #111;
+  display: block;
+}
+
+#controlsPanel {
+  display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: rgba(44, 44, 44, 0.8);
+    color: white;
+    border-radius: 8px;
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    min-width: 200px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+#controlsPanel div h3{
+  margin: 0 0 10px 0; 
+  font-size: 16px;
 }

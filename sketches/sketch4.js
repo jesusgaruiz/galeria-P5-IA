@@ -1,37 +1,27 @@
 export class Sketch4 {
-    constructor() {
-      this.x = 0;
-      this.y = 150;
-      this.speed = 3;
-      this.dir = 1;
-    }
-  
-    setup(p) {
-      // ❌ No crear otro canvas aquí — ya existe
-      p.loop(); // activar animación
-    }
-  
-    draw(p) {
-      p.background(30, 30, 60);
-  
-      // Actualización de posición
-      this.x += this.speed * this.dir;
-  
-      // Rebote en los bordes
-      if (this.x > p.width - 25 || this.x < 25) {
-        this.dir *= -1;
-      }
-  
-      // Dibujar círculo
-      p.noStroke();
-      p.fill(100, 200, 255);
-      p.circle(this.x, this.y, 50);
-  
-      // Texto informativo
-      p.fill(255);
-      p.textAlign(p.CENTER, p.BOTTOM);
-      p.textSize(16);
-      p.text("Sketch 4 (animado)", p.width / 2, p.height - 10);
-    }
+  constructor(params = {}) {
+    this.params = params;
   }
-  
+
+  setup(p) {
+    p.createCanvas(800, 600);
+  }
+
+  draw(p) {
+    const bg = this.params.background || [135, 206, 235]; // default sky blue
+    p.background(...bg);
+
+    // Draw mountains
+    p.fill(139, 69, 19); // brown color for mountains
+    p.triangle(100, 400, 300, 100, 500, 400); // left mountain
+    p.triangle(400, 400, 600, 50, 800, 400); // right mountain
+
+    // Draw grass
+    p.fill(34, 139, 34); // forest green
+    p.rect(0, 400, p.width, 200);
+
+    // Draw sun
+    p.fill(255, 255, 0); // yellow color for sun
+    p.ellipse(700, 100, 80, 80); // sun
+  }
+}

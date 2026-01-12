@@ -11,10 +11,7 @@ document.getElementById("btnConsultar").addEventListener("click", async () => {
 
   if (data.success) {
 
-    document.getElementById("respuesta").innerText =
-      "Sketch generado: " + data.file;
-
-    // ⚡ Usar la función expuesta globalmente
+    // Usar la función expuesta globalmente
     const LastSketchClass = await window.loadLastSketch();
 
     if (!LastSketchClass) {

@@ -1,32 +1,33 @@
 export class Sketch5 {
-  constructor() {
-    this.triangulos = [];
+  constructor(params = {}) {
+    this.params = params;
   }
 
   setup(p) {
-    p.createCanvas(400, 400);
-    p.noLoop();
-    this.createTriangles(p);
+    p.createCanvas(800, 600);
   }
 
   draw(p) {
-    p.background(255);
-    this.triangulos.forEach(triangle => {
-      p.fill(255, 255, 0);
-      p.triangle(triangle.x1, triangle.y1, triangle.x2, triangle.y2, triangle.x3, triangle.y3);
-    });
-  }
+    const bg = this.params.background || [255, 204, 0];
+    p.background(...bg);
 
-  createTriangles(p) {
-    for (let i = 0; i < 10; i++) {
-      this.triangulos.push({
-        x1: p.random(p.width),
-        y1: p.random(p.height),
-        x2: p.random(p.width),
-        y2: p.random(p.height),
-        x3: p.random(p.width),
-        y3: p.random(p.height)
-      });
+    // Drawing the sand
+    p.fill(194, 178, 128);
+    p.rect(0, 400, 800, 200);
+
+    // Drawing the oasis water
+    p.fill(0, 102, 204);
+    p.ellipse(p.width / 2, p.height / 2 + 50, 300, 150);
+
+    // Drawing palm trees
+    p.fill(139, 69, 19);
+    p.rect(100, 300, 20, 100); // trunk left
+    p.rect(600, 300, 20, 100); // trunk right
+
+    p.fill(34, 139, 34);
+    for (let i = 0; i < 5; i++) {
+      p.triangle(70, 300, 130, 200 + i * 10, 50, 200 + i * 10); // left palm leaves
+      p.triangle(570, 300, 630, 200 + i * 10, 650, 200 + i * 10); // right palm leaves
     }
   }
 }
