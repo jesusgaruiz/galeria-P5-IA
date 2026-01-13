@@ -1,4 +1,12 @@
+
 export class Sketch1 {
+  static get config() {
+    return {
+      windowColor: { value: 255, min: 0, max: 255 },
+      houseSize: { value: 200, min: 100, max: 400, step: 10 }
+    };
+  }
+
   constructor(params = {}) {
     this.params = params;
   }
@@ -8,35 +16,35 @@ export class Sketch1 {
   }
 
   draw(p) {
-    const bg = this.params.background || [135, 206, 235];
+    const bg = this.params.background || [135, 206, 235]; // Sky blue
     p.background(...bg);
 
-    // Draw house
-    p.fill(200, 150, 100); // house color
-    p.rect(300, 300, 200, 200); // house body
+    // Audio & GUI usage
+    let bass = (this.params.audio ? this.params.audio.bass : 0);
+    let winColor = this.params.custom.windowColor;
+    let houseSize = this.params.custom.houseSize;
 
-    // Draw roof
-    p.fill(150, 75, 0); // roof color
-    p.triangle(250, 300, 400, 200, 550, 300); // roof
+    // House base
+    p.fill(150, 75, 0); // Brown color for house
+    p.rect(p.width / 2 - houseSize / 2, p.height / 2, houseSize, houseSize * 0.6);
 
-    // Draw door
-    p.fill(100, 50, 0); // door color
-    p.rect(370, 400, 60, 100); // door
+    // Roof
+    p.fill(255, 0, 0); // Red color for roof
+    p.triangle(
+      p.width / 2 - houseSize / 2, p.height / 2,
+      p.width / 2 + houseSize / 2, p.height / 2,
+      p.width / 2, p.height / 2 - houseSize * 0.3
+    );
 
-    // Draw windows
-    p.fill(255); // window color
-    p.rect(320, 350, 50, 50); // left window
-    p.rect(430, 350, 50, 50); // right window
-
-    // Draw garden
-    p.fill(34, 139, 34); // garden color
-    p.rect(0, 500, 800, 100); // garden area
-
-    // Draw pine tree
-    p.fill(139, 69, 19); // trunk color
-    p.rect(650, 450, 20, 50); // trunk
-    p.fill(0, 128, 0); // pine color
-    p.triangle(640, 450, 670, 350, 700, 450); // pine foliage
-    p.triangle(645, 400, 670, 300, 695, 400); // pine foliage
+    // Windows
+    let winSize = houseSize * 0.15;
+    p.fill(winColor);
+    p.rect(p.width / 2 - houseSize / 4, p.height / 2 + houseSize * 0.1, winSize, winSize);
+    p.rect(p.width / 2 + houseSize / 4 - winSize, p.height / 2 + houseSize * 0.1, winSize, winSize);
+    
+    // Animate windows based on audio data
+    let windowY = p.height / 2 + houseSize * 0.1 + bass * 0.2;
+    p.rect(p.width / 2 - houseSize / 4, windowY, winSize, winSize);
+    p.rect(p.width / 2 + houseSize / 4 - winSize, windowY, winSize, winSize);
   }
 }

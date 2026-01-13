@@ -1,4 +1,13 @@
+
 export class Sketch3 {
+  static get config() {
+    return {
+      eyeSize: { value: 40, min: 10, max: 100 },
+      mouthWidth: { value: 100, min: 50, max: 200 },
+      smileIntensity: { value: 20, min: 0, max: 50 }
+    };
+  }
+
   constructor(params = {}) {
     this.params = params;
   }
@@ -8,34 +17,31 @@ export class Sketch3 {
   }
 
   draw(p) {
-    const bg = this.params.background || [135, 206, 235];
+    const bg = this.params.background || [255, 255, 255];
     p.background(...bg);
+    
+    // Audio & GUI usage
+    let bass = (this.params.audio ? this.params.audio.bass : 0);
+    let eyeSize = this.params.custom.eyeSize;
+    let mouthWidth = this.params.custom.mouthWidth;
+    let smileIntensity = this.params.custom.smileIntensity;
 
-    // Draw mountains
-    p.fill(200);
-    p.triangle(150, 300, 250, 100, 350, 300);
-    p.triangle(400, 300, 500, 50, 600, 300);
-    p.fill(255);
-    p.triangle(250, 150, 300, 30, 350, 150);
-    p.triangle(500, 200, 550, 80, 600, 200);
+    // Face parameters
+    let faceColor = [255 - bass, 204, 0]; // Base skin tone changes with bass
+    let headRadius = 200 + bass * 0.2; // Size of the face changes with bass
+    
+    // Draw face
+    p.fill(...faceColor);
+    p.ellipse(p.width / 2, p.height / 2, headRadius);
 
-    // Draw pine trees
-    this.drawPineTree(p, 100, 400);
-    this.drawPineTree(p, 200, 450);
-    this.drawPineTree(p, 300, 400);
-    this.drawPineTree(p, 700, 450);
-    this.drawPineTree(p, 600, 400);
-  }
+    // Draw eyes
+    p.fill(0);
+    p.ellipse(p.width / 2 - headRadius / 4, p.height / 2 - headRadius / 8, eyeSize, eyeSize);
+    p.ellipse(p.width / 2 + headRadius / 4, p.height / 2 - headRadius / 8, eyeSize, eyeSize);
 
-  drawPineTree(p, x, y) {
-    // Draw trunk
-    p.fill(139, 69, 19);
-    p.rect(x - 10, y, 20, 40);
-
-    // Draw leaves
-    p.fill(0, 128, 0);
-    p.triangle(x - 30, y, x, y - 60, x + 30, y);
-    p.triangle(x - 25, y - 30, x, y - 90, x + 25, y - 30);
-    p.triangle(x - 20, y - 60, x, y - 120, x + 20, y - 60);
+    // Draw mouth (smile)
+    p.noFill();
+    p.stroke(0);
+    p.arc(p.width / 2, p.height / 2 + headRadius / 8, mouthWidth, mouthWidth * 0.5, 0, p.PI + smileIntensity / 100);
   }
 }

@@ -1,37 +1,63 @@
+
 export class Sketch2 {
+  static get config() {
+    return {
+      crabSize: { value: 50, min: 10, max: 100, step: 5 },
+      waveAmplitude: { value: 20, min: 0, max: 50, step: 1 }
+    };
+  }
+
   constructor(params = {}) {
     this.params = params;
+    this.crabs = [];
   }
 
   setup(p) {
     p.createCanvas(800, 600);
+    this.positionCrabs(p);
+  }
+
+  positionCrabs(p) {
+    const numCrabs = 10;
+    for (let i = 0; i < numCrabs; i++) {
+      this.crabs.push({
+        x: p.random(0, p.width),
+        y: p.random(p.height - 50, p.height - 10), // positioning crabs on the sand
+        size: this.params.custom.crabSize
+      });
+    }
   }
 
   draw(p) {
-    const bg = this.params.background || [135, 206, 235]; // Default sky blue
+    const bg = [135, 206, 235]; // sky blue
     p.background(...bg);
-
-    // Draw the sun
-    p.fill(255, 204, 0);
-    p.ellipse(700, 100, 100); // Positioning sun
-
-    // Draw beach
-    p.fill(255, 224, 178); // Sandy color
-    p.rect(0, 400, p.width, 200); // Beach area
-
-    // Draw umbrellas
-    this.drawUmbrella(p, 100, 350);
-    this.drawUmbrella(p, 300, 350);
-    this.drawUmbrella(p, 500, 350);
+    this.drawSand(p);
+    this.drawWaves(p);
+    this.drawCrabs(p);
   }
 
-  drawUmbrella(p, x, y) {
-    // Umbrella top
-    p.fill(255, 0, 0); // Red color
-    p.arc(x, y, 80, 80, p.PI, 0, p.CHORD);
+  drawSand(p) {
+    const sandColor = [222, 184, 135]; // sandy brown
+    p.fill(...sandColor);
+    p.noStroke();
+    p.rect(0, p.height - 100, p.width, 100); // sand rectangle
+  }
 
-    // Umbrella pole
-    p.fill(139, 69, 19); // Brown color for the pole
-    p.rect(x - 5, y, 10, 50);
+  drawWaves(p) {
+    const waveColor = [255, 255, 255]; // white
+    p.fill(...waveColor);
+    p.noStroke();
+    
+    for (let x = 0; x < p.width; x += 10) {
+      const waveY = p.height - 100 - this.params.custom.waveAmplitude * Math.sin(x * 0.05 + p.frameCount * 0.1);
+      p.ellipse(x, waveY, 30, 10); // waves
+    }
+  }
+
+  drawCrabs(p) {
+    for (const crab of this.crabs) {
+      p.fill(255, 0, 0); // red color for crabs
+      p.ellipse(crab.x, crab.y, crab.size, crab.size); // draw crab
+    }
   }
 }

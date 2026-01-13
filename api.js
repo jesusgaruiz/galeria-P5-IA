@@ -1,7 +1,10 @@
 document.getElementById("btnConsultar").addEventListener("click", async () => {
   const prompt = document.getElementById("pregunta").value;
+  const respuesta = document.getElementById("respuesta");
 
-  const resp = await fetch("/galeria-P5-IA/api/openai.php", {
+  respuesta.innerText = "Generando... espera unos segundos.";
+
+  const resp = await fetch("api/openai.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt })
@@ -10,21 +13,25 @@ document.getElementById("btnConsultar").addEventListener("click", async () => {
   const data = await resp.json();
 
   if (data.success) {
+    respuesta.innerText = "¡Generado! Cargando sketch...";
 
-    // Usar la función expuesta globalmente
-    const LastSketchClass = await window.loadLastSketch();
+    // Usar la función modificada que devuelve { sketchClass, prompt }
+    const result = await window.loadLastSketch();
 
-    if (!LastSketchClass) {
-      document.getElementById("respuesta").innerText =
-        "Error: No se pudo cargar el nuevo sketch.";
+    if (!result || !result.sketchClass) {
+      respuesta.innerText = "Error: No se pudo cargar el nuevo sketch.";
       return;
     }
 
-    window.sketches.push(LastSketchClass);
+    // Agregar a los arrays globales
+    window.sketches.push(result.sketchClass);
+    window.sketchPrompts.push(result.prompt); // Guardamos el prompt
+    
     window.currentIndex = window.sketches.length - 1;
     window.loadSketch(window.currentIndex, window.pInstance);
 
+    respuesta.innerText = "";
   } else {
-    document.getElementById("respuesta").innerText = data.error;
+    respuesta.innerText = "Error: " + (data.error || "Desconocido");
   }
 });

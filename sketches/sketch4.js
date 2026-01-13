@@ -1,27 +1,40 @@
+
 export class Sketch4 {
+  static get config() {
+    return {
+      mountainHeight: { value: 120, min: 50, max: 300 },
+      snowColor: { value: 255, min: 200, max: 255 }
+    };
+  }
+
   constructor(params = {}) {
     this.params = params;
   }
 
   setup(p) {
     p.createCanvas(800, 600);
+    p.noStroke();
   }
 
   draw(p) {
-    const bg = this.params.background || [135, 206, 235]; // default sky blue
+    const bg = this.params.background || [135, 206, 250]; // Sky blue
     p.background(...bg);
+    
+    // Audio usage
+    let bass = (this.params.audio ? this.params.audio.bass : 0);
+    let mountainHeight = this.params.custom.mountainHeight;
+    let snowColor = this.params.custom.snowColor;
 
     // Draw mountains
-    p.fill(139, 69, 19); // brown color for mountains
-    p.triangle(100, 400, 300, 100, 500, 400); // left mountain
-    p.triangle(400, 400, 600, 50, 800, 400); // right mountain
-
-    // Draw grass
-    p.fill(34, 139, 34); // forest green
-    p.rect(0, 400, p.width, 200);
-
-    // Draw sun
-    p.fill(255, 255, 0); // yellow color for sun
-    p.ellipse(700, 100, 80, 80); // sun
+    for (let i = 0; i < 5; i++) {
+      let x = (i * p.width) / 5;
+      let height = mountainHeight + bass * 0.1; // Adjust mountain height with bass
+      p.fill(100, 100, 100);
+      p.triangle(x, p.height, x + 100, p.height - height, x + 200, p.height);
+      
+      // Draw snow caps on mountains
+      p.fill(snowColor, snowColor, snowColor);
+      p.triangle(x + 20, p.height - height + 30, x + 100, p.height - height - 20, x + 180, p.height - height + 30);
+    }
   }
 }

@@ -1,4 +1,13 @@
+
 export class Sketch6 {
+  static get config() {
+    return {
+      petalCount: { value: 5, min: 1, max: 10 },
+      petalLength: { value: 50, min: 10, max: 100 },
+      petalColor: { value: 150, min: 0, max: 255 }
+    };
+  }
+
   constructor(params = {}) {
     this.params = params;
   }
@@ -8,22 +17,26 @@ export class Sketch6 {
   }
 
   draw(p) {
-    const bg = this.params.background || [255, 204, 0];
+    const bg = this.params.background || [100, 150, 200];
     p.background(...bg);
 
-    let time = p.frameCount * 0.05;
-    p.noFill();
-    for (let i = 0; i < 10; i++) {
-      p.stroke(255 - i * 25, 100 + i * 15, 0);
-      p.beginShape();
-      for (let j = 0; j < 360; j += 5) {
-        let angle = p.radians(j);
-        let radius = 100 + i * 10 + p.sin(time + j * 0.1) * 20;
-        let x = p.width / 2 + p.cos(angle) * radius;
-        let y = p.height / 2 + p.sin(angle) * radius;
-        p.vertex(x, y);
-      }
-      p.endShape();
+    // Audio & GUI usage
+    let bass = (this.params.audio ? this.params.audio.bass : 0);
+    let petalCount = this.params.custom.petalCount;
+    let petalLength = this.params.custom.petalLength;
+    let petalColor = this.params.custom.petalColor;
+
+    for (let i = 0; i < petalCount; i++) {
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+      p.rotate((p.TWO_PI / petalCount) * i);
+      p.fill(petalColor, 100 + bass * 0.5, 150);
+      p.ellipse(0, petalLength + bass * 0.5, 30, petalLength);
+      p.pop();
     }
+
+    // Draw the center of the flower
+    p.fill(255, 200, 0);
+    p.ellipse(p.width / 2, p.height / 2, 50);
   }
 }

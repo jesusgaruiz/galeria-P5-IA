@@ -1,33 +1,43 @@
+
 export class Sketch5 {
+  static get config() {
+    return {
+      speed: { value: 2, min: 0.1, max: 5, step: 0.1 },
+      carColor: { value: 255, min: 0, max: 255 },
+      size: { value: 50, min: 20, max: 100 }
+    };
+  }
+
   constructor(params = {}) {
     this.params = params;
+    this.position = 0;
   }
 
   setup(p) {
     p.createCanvas(800, 600);
+    p.noStroke();
   }
 
   draw(p) {
-    const bg = this.params.background || [255, 204, 0];
+    const bg = this.params.background || [50, 50, 50];
     p.background(...bg);
 
-    // Drawing the sand
-    p.fill(194, 178, 128);
-    p.rect(0, 400, 800, 200);
+    // Audio & GUI usage
+    let bass = (this.params.audio ? this.params.audio.bass : 0);
+    let speed = this.params.custom.speed;
+    let col = this.params.custom.carColor;
+    let size = this.params.custom.size;
 
-    // Drawing the oasis water
-    p.fill(0, 102, 204);
-    p.ellipse(p.width / 2, p.height / 2 + 50, 300, 150);
+    // Update position based on bass and speed
+    this.position += speed * (bass / 255) * p.deltaTime;
 
-    // Drawing palm trees
-    p.fill(139, 69, 19);
-    p.rect(100, 300, 20, 100); // trunk left
-    p.rect(600, 300, 20, 100); // trunk right
-
-    p.fill(34, 139, 34);
-    for (let i = 0; i < 5; i++) {
-      p.triangle(70, 300, 130, 200 + i * 10, 50, 200 + i * 10); // left palm leaves
-      p.triangle(570, 300, 630, 200 + i * 10, 650, 200 + i * 10); // right palm leaves
+    // Loop the car when it goes off-screen
+    if (this.position > p.width + size) {
+      this.position = -size;
     }
+
+    // Draw the car (simple rectangle for this example)
+    p.fill(col, 0, 0);
+    p.rect(this.position, p.height / 2, size, size / 2);
   }
 }
